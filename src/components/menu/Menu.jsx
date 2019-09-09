@@ -5,9 +5,12 @@ import { connect } from "@tarojs/redux";
 import "./menu.less";
 import "../../assets/font/iconfont.css";
 import { showDrawer, hideDrawer, changeCata } from "../../actions/menu";
+import { getTopicListData } from "../../actions/topic";
 
 const mapStateToProps = state => ({
-	...state.menu,
+    ...state.menu,
+    page: state.topic.page,
+    limit: state.topic.limit,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -19,7 +22,10 @@ const mapDispatchToProps = dispatch => ({
 	},
 	handleChangeCata: currentCata => {
 		dispatch(changeCata(currentCata));
-	},
+    },
+    getTopicList: (params) => {
+        dispatch(getTopicListData(params));
+    }
 });
 
 @connect(
@@ -28,9 +34,15 @@ const mapDispatchToProps = dispatch => ({
 )
 class Menu extends Component {
 	onChangeCata = index => {
-		const { cataData, handleChangeCata } = this.props;
+        const { cataData, handleChangeCata, getTopicList, page, limit } = this.props;
 		let currentCata = cataData[index];
-		handleChangeCata(currentCata);
+        handleChangeCata(currentCata);
+        let params = {
+            tab: currentCata.key,
+            page,
+            limit,
+        }
+        getTopicList(params);
 	};
 	render() {
 		const { showDrawer, cataData, currentCata, handleShowDrawer, handleHideDrawer } = this.props;

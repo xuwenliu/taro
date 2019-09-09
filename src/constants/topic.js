@@ -1,0 +1,1 @@
+export const GET_TOPIC_LIST = 'index/get_topic_list';

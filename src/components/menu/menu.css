@@ -1,0 +1,19 @@
+.header-menu {
+  width: 100%;
+  height: 40PX;
+  display: flex;
+  padding: 0 10PX;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 20PX;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #f6f6f6;
+  z-index: 999;
+}
+.header-menu .iconfont {
+  font-size: 24PX;
+}

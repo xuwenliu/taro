@@ -1,10 +1,8 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Button, Text,Icon } from "@tarojs/components";
 import "./index.less";
-import Menu from '../../components/menu/menu';
-
-import {getTopicList} from '../../utils/request';
-
+import Menu from '../../components/menu/Menu';
+import TopicList from './TopicList';
 
 class Index extends Component {
 	config = {
@@ -15,9 +13,6 @@ class Index extends Component {
 		console.log(this.props, nextProps);
 	}
     componentDidMount() {
-        getTopicList().then(data => {
-            console.log(data);
-        });
     }
 	componentWillUnmount() {}
 
@@ -29,6 +24,7 @@ class Index extends Component {
 		return (
             <View className="index">
                 <Menu />
+                <TopicList />
 			</View>
 		);
 	}
