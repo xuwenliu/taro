@@ -1,4 +1,4 @@
-import { GET_TOPIC_LIST, CLEAR_TOPIC_LIST } from "../constants/topic";
+import { GET_TOPIC_LIST, CLEAR_TOPIC_LIST, GET_TOPIC_INFO } from "../constants/topic";
 
 const TOPIC_STATE = {
 	page: 1,
@@ -302,7 +302,8 @@ const TOPIC_STATE = {
 	// 			author: { loginname: "nodejsnewer", avatar_url: "https://avatars2.githubusercontent.com/u/54900998?v=4&s=120" },
 	// 		},
 	// 	],
-	list: [],
+    list: [],
+    info: {},
 };
 
 export default (state = TOPIC_STATE, action) => {
@@ -317,7 +318,12 @@ export default (state = TOPIC_STATE, action) => {
 			return {
 				...state,
 				list: [],
-			};
+            };
+        case GET_TOPIC_INFO:
+            return {
+                ...state,
+                info: action.info,
+            }
 		default:
 			return state;
 	}

@@ -37,3 +37,8 @@ export function getDesc(top, good, tab) {
     }
     return [item_btn_class, item_btn_content];
 }
+
+//替换富文本中的img给添加个rich-img class 用于设置样式
+export function getRichImg(content) {
+    return content ? content.replace(/\<img/gi, '<img class="rich-img"') : '';
+}

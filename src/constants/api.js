@@ -2,7 +2,7 @@ const rootPath = 'https://cnodejs.org/api/v1';
 const requestApi = {
     rootPath,
     get_topics: '/topics', // get 主题首页
-    get_topic_info: '/topics', // get 主题详情 /topic/:id
+    get_topic_info: '/topic', // get 主题详情 /topic/:id
 
     topic_collect: '/topic_collect/collect', // post 收藏主题
     topic_de_collect: '/topic_collect/de_collect', // post 取消主题

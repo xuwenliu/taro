@@ -1,4 +1,4 @@
-import { GET_TOPIC_LIST, CLEAR_TOPIC_LIST } from "../constants/topic";
+import { GET_TOPIC_LIST, CLEAR_TOPIC_LIST,GET_TOPIC_INFO } from "../constants/topic";
 import { getJSON } from "../utils/request";
 import api from "../constants/api";
 
@@ -16,10 +16,16 @@ const clearTopicList = () => {
 	};
 };
 
+const getTopicInfo = (info) => {
+    return {
+        type: GET_TOPIC_INFO,
+        info: info
+    }
+}
+
 //获取话题列表
 export const getTopicListData = params => {
 	return async dispatch => {
-		console.log(params, "params");
 		let result = await getJSON(api.get_topics, params);
 		if (result && result.data) {
 			if (result.data.data.length > 0) {
@@ -35,3 +41,15 @@ export const clearTopicListData = () => {
 		dispatch(clearTopicList());
 	};
 };
+
+export const getTopicInfoData = (id) => {
+    return async dispatch => {
+        let result = await getJSON(api.get_topic_info + '/' + id);
+        console.log(result)
+        if (result && result.data) {
+            if (result.data.data) {
+                dispatch(getTopicInfo(result.data.data));
+            }
+         }
+    }
+}

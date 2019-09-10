@@ -1,0 +1,74 @@
+.reply-item {
+    padding: 20PX 10PX;
+    background: #fff;
+    border-bottom: 1PX solid #f0f0f0;
+    font-size: 14PX;
+
+    &.light{
+        background: #f4fcf0;
+    }
+
+    .reply-top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 5PX;
+
+        .avatar {
+            width: 30PX;
+            height: 30PX;
+            border-radius: 3PX;
+            margin-right: 10PX;
+        }
+
+        .reply-top-right {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .name {
+                font-size: 12PX;
+                color: #666;
+            }
+
+            .time {
+                font-size: 12PX;
+                color: #08c;
+                margin:0 5PX;
+            }
+
+            .zan {
+                .iconfont {
+                    font-size: 20PX;
+                    color: #ccc;
+
+                    &.active {
+                        color: #52c41a;
+                    }
+                }
+
+                .iconzhuan {
+                    font-size: 30PX;
+                    margin-left: 20PX;
+                    vertical-align: middle;
+                    color: #1890ff;
+
+                }
+
+            }
+
+
+        }
+    }
+
+    .reply-bottom {
+        word-break: break-all;
+
+        .rich-img {
+            width: 100%;
+            height: auto;
+        }
+    }
+}
