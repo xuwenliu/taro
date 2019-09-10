@@ -5,7 +5,7 @@ import { connect } from "@tarojs/redux";
 import "./menu.less";
 import "../../assets/font/iconfont.css";
 import { showDrawer, hideDrawer, changeCata } from "../../actions/menu";
-import { getTopicListData } from "../../actions/topic";
+import { getTopicListData, clearTopicListData } from "../../actions/topic";
 
 const mapStateToProps = state => ({
     ...state.menu,
@@ -25,6 +25,9 @@ const mapDispatchToProps = dispatch => ({
     },
     getTopicList: (params) => {
         dispatch(getTopicListData(params));
+    },
+    clearTopicList: () => {
+        dispatch(clearTopicListData());
     }
 });
 
@@ -34,14 +37,16 @@ const mapDispatchToProps = dispatch => ({
 )
 class Menu extends Component {
 	onChangeCata = index => {
-        const { cataData, handleChangeCata, getTopicList, page, limit } = this.props;
-		let currentCata = cataData[index];
+        const { cataData, handleChangeCata, getTopicList, clearTopicList, limit } = this.props;
+        let currentCata = cataData[index];
+        if (currentCata.key === this.props.currentCata.key) return;
         handleChangeCata(currentCata);
         let params = {
             tab: currentCata.key,
-            page,
+            page: 1,
             limit,
         }
+        clearTopicList(); //每次点击抽屉item先把列表清空在做请求
         getTopicList(params);
 	};
 	render() {
@@ -49,7 +54,7 @@ class Menu extends Component {
 		const items = cataData.map(item => item.value);
 		return (
 			<View>
-				<AtDrawer show={showDrawer} mask onClose={handleHideDrawer.bind(this)} items={items} onItemClick={this.onChangeCata.bind(this)} />
+				<AtDrawer show={showDrawer} mask onClose={handleHideDrawer.bind(this)} items={items} onItemClick={this.onChangeCata} />
 				<View className="header-menu">
 					<Icon onClick={handleShowDrawer.bind(this)} className="iconfont iconmenu"></Icon>
 					<Text>{currentCata.value}</Text>

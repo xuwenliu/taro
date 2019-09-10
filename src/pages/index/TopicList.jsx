@@ -29,10 +29,21 @@ class TopicList extends Component {
 		this.props.getTopicList(postData);
 	}
 
+	//滚动到底部 分页加载 ScrollView必须指定高度
+	handleScrollToBottom = () => {
+		const { page, limit, currentCata } = this.props;
+		let postData = {
+			page: page + 1,
+			limit,
+			tab: currentCata.key,
+		};
+		this.props.getTopicList(postData);
+	};
+
 	render() {
 		const { list, currentCata } = this.props;
 		return (
-			<ScrollView style={{ paddingTop: "40PX" }}>
+			<ScrollView onScrollToLower={this.handleScrollToBottom} scrollY style={{ paddingTop: "40PX", height: "650PX" }}>
 				{list.map(item => {
 					return <TopicItem key={item.id} {...item} currentCata={currentCata} />;
 				})}
