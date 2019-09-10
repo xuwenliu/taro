@@ -2,7 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { getTopicListData } from "../../actions/topic";
-import { TopicItem } from "./TopicItem";
+import TopicItem from "./TopicItem";
 
 const mapStateToProps = state => ({
 	...state.topic,

@@ -19,7 +19,10 @@ const store = configStore();
 
 class App extends Component {
 	config = {
-		pages: ["pages/index/index"],
+        pages: [
+            "pages/index/index",
+            "pages/detail/index"
+        ],
 		window: {
 			backgroundTextStyle: "light",
 			navigationBarBackgroundColor: "#fff",
@@ -41,7 +44,7 @@ class App extends Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<Index />
+                <Index />
 			</Provider>
 		);
 	}

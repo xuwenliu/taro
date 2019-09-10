@@ -54,7 +54,7 @@ class Menu extends Component {
 		const items = cataData.map(item => item.value);
 		return (
 			<View>
-				<AtDrawer show={showDrawer} mask onClose={handleHideDrawer.bind(this)} items={items} onItemClick={this.onChangeCata} />
+				<AtDrawer className="my-drawer" width='65%' show={showDrawer} mask onClose={handleHideDrawer.bind(this)} items={items} onItemClick={this.onChangeCata} />
 				<View className="header-menu">
 					<Icon onClick={handleShowDrawer.bind(this)} className="iconfont iconmenu"></Icon>
 					<Text>{currentCata.value}</Text>
