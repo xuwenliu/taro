@@ -3,7 +3,7 @@ import { View, RichText, Text } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { getRichImg } from "../../utils/lib";
 
-import { getTopicInfoData } from "../../actions/topic";
+import { getTopicInfoData,admireTopic } from "../../actions/topic";
 import TopicItem from "../index/TopicItem";
 import ReplyItem from "./ReplyItem";
 
@@ -11,11 +11,16 @@ import "./index.less";
 
 const mapStateToProps = state => ({
 	info: state.topic.info,
+	admireStatus:state.topic.admireStatus,
+	user: state.user
 });
 const mapDispatchToProps = dispatch => ({
-	getTopicInfo: id => {
-		dispatch(getTopicInfoData(id));
+	getTopicInfo: params => {
+		dispatch(getTopicInfoData(params));
 	},
+	like:params => {
+		dispatch(admireTopic(params));
+	}
 });
 
 @connect(
@@ -26,13 +31,24 @@ class Detail extends Component {
 	config = {
 		navigationBarTitleText: "话题详情",
 	};
+	componentWillReceiveProps(nextProps){
+		if(this.props.admireStatus != nextProps.admireStatus){
+			this.getDetail();
+		}
+	}
 	componentDidMount() {
-		const { getTopicInfo } = this.props;
-		let topicId = this.$router.params.topicId;
-		getTopicInfo(topicId);
+		this.getDetail();
+	}
+	getDetail(){
+		const { getTopicInfo,user } = this.props;
+		let params = {
+			id:this.$router.params.topicId,
+			accesstoken:user.accesstoken
+		}
+		getTopicInfo(params);
 	}
 	render() {
-		const { info } = this.props;
+		const { info,user,like } = this.props;
 		let content = getRichImg(info.content);
 		return (
 			<View>
@@ -46,7 +62,7 @@ class Detail extends Component {
 				<View>
 					{info.replies &&
 						info.replies.map((item, index) => {
-							return <ReplyItem key={item.id} {...item} index={index + 1} />;
+							return <ReplyItem key={item.id} {...item} index={index + 1} user={user} like={like}/>;
 						})}
 				</View>
 			</View>

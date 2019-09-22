@@ -49,4 +49,7 @@ class TopicItem extends Component {
 	}
 }
 
+TopicItem.defaultProps = {
+	author:{},
+}
 export default TopicItem;
