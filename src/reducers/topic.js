@@ -1,4 +1,11 @@
-import { GET_TOPIC_LIST, CLEAR_TOPIC_LIST, GET_TOPIC_INFO, ADMIRE_SUCCESS } from "../constants/topic";
+import {
+	GET_TOPIC_LIST,
+	CLEAR_TOPIC_LIST,
+	GET_TOPIC_INFO,
+	ADMIRE_SUCCESS,
+	SHOW_REPLY_MODAL,
+	HIDE_REPLY_MODAL
+} from "../constants/topic";
 
 const TOPIC_STATE = {
 	page: 1,
@@ -305,6 +312,7 @@ const TOPIC_STATE = {
 	list: [],
 	info: {},
 	admireStatus: false, //点赞状态
+	isShowReplyModal: false,
 };
 
 export default (state = TOPIC_STATE, action) => {
@@ -329,6 +337,16 @@ export default (state = TOPIC_STATE, action) => {
 			return {
 				...state,
 				admireStatus: !state.admireStatus
+			}
+		case SHOW_REPLY_MODAL:
+			return {
+				...state,
+				isShowReplyModal: true,
+			}
+		case HIDE_REPLY_MODAL:
+			return {
+				...state,
+				isShowReplyModal: false,
 			}
 		default:
 			return state;

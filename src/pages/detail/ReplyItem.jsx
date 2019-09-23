@@ -10,15 +10,15 @@ const isShowRichText = process.env.TARO_ENV === 'weapp';
 
 class ReplyItem extends Component {
 	handleLike = replyId => {
-		let { user, like } = this.props;
+		let { user, onLike } = this.props;
 		let params = {
 			replyId,
-			accesstoken:user.accesstoken,
+			accesstoken: user.accesstoken,
 		}
-		like(params);
+		onLike(params);
 	};
 	render() {
-		let { create_at, content, ups, author, index, is_uped, id, reply_id } = this.props;
+		let { create_at, content, ups, author, index, is_uped, id, reply_id, onOpenReplyModal } = this.props;
 		content = getRichImg(content);
 		return (
 			<View className={ups && ups.length >= 3 ? "light reply-item" : "reply-item"}>
@@ -38,7 +38,7 @@ class ReplyItem extends Component {
 							<AtBadge value={ups ? ups.length : 0} maxValue={99}>
 								<Icon onClick={this.handleLike.bind(this, id)} className={is_uped ? "iconfont iconzan active" : "iconfont iconzan"} ></Icon>
 							</AtBadge>
-							<Icon className="iconfont iconzhuan"></Icon>
+							<Icon onClick={onOpenReplyModal.bind(this)} className="iconfont iconzhuan"></Icon>
 						</View>
 					</View>
 				</View>

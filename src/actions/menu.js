@@ -7,14 +7,14 @@ const changeCataType = currentCata => {
 	};
 };
 
-export const showDrawer = (dispatch) => {
+export const showDrawer = () => {
 	return dispatch =>
 		dispatch({
 			type: SHOW_DRAWER,
 		});
 };
 
-export const hideDrawer = (dispatch) => {
+export const hideDrawer = () => {
 	return dispatch =>
 		dispatch({
 			type: HIDE_DRAWER,
