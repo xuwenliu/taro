@@ -4,7 +4,7 @@ import { AtDrawer } from "taro-ui";
 import { connect } from "@tarojs/redux";
 
 import "../../assets/font/iconfont.css";
-import "./menu.less";
+import "./Menu.less";
 
 import { showDrawer, hideDrawer, changeCata } from "../../actions/menu";
 import { getTopicListData, clearTopicListData } from "../../actions/topic";
