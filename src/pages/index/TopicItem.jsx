@@ -1,16 +1,16 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Image, Text, Button } from "@tarojs/components";
-import { formatDate, getDesc } from "../../utils/lib";
 import "./TopicItem.less";
+import { formatDate, getDesc } from "../../utils/lib";
 
 class TopicItem extends Component {
-    goDetail = id => {
-        const { isDetail } = this.props;
-        if (!isDetail) {
-            Taro.navigateTo({
-                url: "/pages/detail/index?topicId=" + id,
-            });
-        }
+	goDetail = id => {
+		const { isDetail } = this.props;
+		if (!isDetail) {
+			Taro.navigateTo({
+				url: "/pages/detail/index?topicId=" + id,
+			});
+		}
 	};
 	render() {
 		const { title, author, reply_count, visit_count, last_reply_at, top, tab, good, id, isDetail } = this.props;
@@ -26,23 +26,22 @@ class TopicItem extends Component {
 						<Text className="title">{title}</Text>
 					</View>
 					{isDetail ? (
-                        <View className="item-desc">
-                            <Text>{last_reply_at ? formatDate(last_reply_at) : ''}</Text>
+						<View className="item-desc">
+							<Text>{last_reply_at ? formatDate(last_reply_at) : ''}</Text>
 							<Text>{author.loginname}</Text>
 							<Text>
-                                {visit_count ? visit_count : 0}次浏览
+								{visit_count ? visit_count : 0}次浏览
 							</Text>
-							
 						</View>
 					) : (
-						<View className="item-desc">
-							<Text>{author.loginname}</Text>
-							<Text>
-								{reply_count}/{visit_count}
-							</Text>
-							<Text>{formatDate(last_reply_at)}</Text>
-						</View>
-					)}
+							<View className="item-desc">
+								<Text>{author.loginname}</Text>
+								<Text>
+									{reply_count}/{visit_count}
+								</Text>
+								<Text>{formatDate(last_reply_at)}</Text>
+							</View>
+						)}
 				</View>
 			</View>
 		);
@@ -50,6 +49,6 @@ class TopicItem extends Component {
 }
 
 TopicItem.defaultProps = {
-	author:{},
+	author: {},
 }
 export default TopicItem;

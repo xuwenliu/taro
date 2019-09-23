@@ -1,8 +1,10 @@
 import Taro, { Component } from "@tarojs/taro";
 import { ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { getTopicListData } from "../../actions/topic";
+
 import TopicItem from "./TopicItem";
+
+import { getTopicListData } from "../../actions/topic";
 
 const mapStateToProps = state => ({
 	...state.topic,
@@ -43,7 +45,11 @@ class TopicList extends Component {
 	render() {
 		const { list, currentCata } = this.props;
 		return (
-			<ScrollView onScrollToLower={this.handleScrollToBottom} scrollY style={{ paddingTop: "40PX", height: "650PX" }}>
+			<ScrollView
+				onScrollToLower={this.handleScrollToBottom}
+				scrollY
+				style={{ paddingTop: "40PX", height: "650PX" }}
+			>
 				{list.map(item => {
 					return <TopicItem key={item.id} {...item} currentCata={currentCata} />;
 				})}

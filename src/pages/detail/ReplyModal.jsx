@@ -1,22 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Button } from "@tarojs/components";
-import { AtModal, AtTextarea,AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui';
-import { connect } from "@tarojs/redux";
-import './replyModal.less';
+import { Button } from "@tarojs/components";
+import { AtModal, AtTextarea, AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui';
 
-const mapStateToProps = state => ({
-    test: state.test,
-});
-const mapDispatchToProps = dispatch => ({
-    test: () => {
-        dispatch();
-    },
-});
-
-@connect(
-    mapStateToProps,
-    mapDispatchToProps
-)
 class ReplyModal extends Component {
     state = {
         value: ''
@@ -26,27 +11,27 @@ class ReplyModal extends Component {
             value: event.target.value
         })
     }
-    handleCancel(){
+    handleCancel() {
         this.props.onClose();
         this.setState({
-            value:''
+            value: ''
         })
     }
-    handleOk(){
-        if(!this.state.value){
+    handleOk() {
+        if (!this.state.value) {
             Taro.showToast({
-                title:'请输入评论内容',
-                icon:'none'
+                title: '请输入评论内容',
+                icon: 'none'
             })
-        }else {
+        } else {
             this.props.onOk(this.state.value);
             this.setState({
-                value:''
+                value: ''
             })
         }
     }
     render() {
-        const { isOpened,title } = this.props;
+        const { isOpened, title } = this.props;
         const { value } = this.state;
         return <AtModal
             isOpened={isOpened}
@@ -56,8 +41,6 @@ class ReplyModal extends Component {
             <AtModalContent>
                 <AtTextarea
                     fixed
-                    autoFocus={true}
-                    focus={true}
                     value={value}
                     height={200}
                     onChange={this.handleChange.bind(this)}
@@ -69,7 +52,6 @@ class ReplyModal extends Component {
                 <Button onClick={this.handleOk.bind(this)}>确定</Button>
             </AtModalAction>
         </AtModal>
-            ;
     }
 }
 

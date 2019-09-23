@@ -2,8 +2,14 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, RichText, Text } from "@tarojs/components";
 import { AtButton } from 'taro-ui'
 import { connect } from "@tarojs/redux";
-import { getRichImg } from "../../utils/lib";
 
+import "./index.less";
+
+import TopicItem from "../index/TopicItem";
+import ReplyItem from "./ReplyItem";
+import ReplyModal from "./ReplyModal";
+
+import { getRichImg } from "../../utils/lib";
 import {
 	getTopicInfoData,
 	admireTopic,
@@ -11,18 +17,15 @@ import {
 	showReplyModal,
 	hideReplyModal,
 } from "../../actions/topic";
-import TopicItem from "../index/TopicItem";
-import ReplyItem from "./ReplyItem";
-import ReplyModal from "./ReplyModal";
 
-import "./index.less";
 
 const mapStateToProps = state => ({
 	info: state.topic.info,
 	admireStatus: state.topic.admireStatus,
 	isShowReplyModal: state.topic.isShowReplyModal,
-	user: state.user
+	userInfo: state.user.userInfo,
 });
+
 const mapDispatchToProps = dispatch => ({
 	getTopicInfo: params => {
 		dispatch(getTopicInfoData(params));
@@ -36,7 +39,7 @@ const mapDispatchToProps = dispatch => ({
 	showReplyModal: () => {
 		dispatch(showReplyModal());
 	},
-	hideReplyModal:()=>{
+	hideReplyModal: () => {
 		dispatch(hideReplyModal());
 	}
 
@@ -51,8 +54,8 @@ class Detail extends Component {
 		navigationBarTitleText: "话题详情",
 	};
 	state = {
-		replyModalTitle:'',
-		currentReply:''
+		replyModalTitle: '',
+		currentReply: ''
 	}
 	componentWillReceiveProps(nextProps) {
 		if (this.props.admireStatus != nextProps.admireStatus) {
@@ -63,19 +66,31 @@ class Detail extends Component {
 		this.getDetail();
 	}
 	getDetail() {
-		const { getTopicInfo, user } = this.props;
+		const { getTopicInfo, userInfo } = this.props;
 		let params = {
 			id: this.$router.params.topicId,
-			accesstoken: user.accesstoken
+			accesstoken: userInfo.accesstoken
 		}
 		getTopicInfo(params);
 	}
-	openReplyModal(title,currentReply) {
-		this.setState({
-			replyModalTitle:title,
-			currentReply,
-		})
-		this.props.showReplyModal();
+	handleLike(params) {
+		if (this.props.userInfo.accesstoken) {
+			this.props.like(params);
+		} else {
+			Taro.navigateTo({ url: '/pages/user/login' });
+		}
+	}
+
+	openReplyModal(title, currentReply) {
+		if (this.props.userInfo.accesstoken) {
+			this.setState({
+				replyModalTitle: title,
+				currentReply,
+			})
+			this.props.showReplyModal();
+		} else {
+			Taro.navigateTo({ url: '/pages/user/login' });
+		}
 	}
 	closeReplyModal() {
 		this.props.hideReplyModal();
@@ -88,17 +103,17 @@ class Detail extends Component {
 		let params = {
 			content,
 			topic_id: this.$router.params.topicId,
-			accesstoken: this.props.user.accesstoken,
+			accesstoken: this.props.userInfo.accesstoken,
 		}
 		let currentReply = this.state.currentReply;
-		if(currentReply){
+		if (currentReply) {
 			params.reply_id = currentReply.id;
-			params.content = '@'+currentReply.author.loginname + '  ' + params.content;
+			params.content = '@' + currentReply.author.loginname + '  ' + params.content;
 		}
 		this.props.replyContent(params);
 	}
 	render() {
-		const { info, user, like, isShowReplyModal } = this.props;
+		const { info, userInfo, isShowReplyModal } = this.props;
 		const { replyModalTitle } = this.state;
 		let content = getRichImg(info.content);
 		return (
@@ -113,18 +128,18 @@ class Detail extends Component {
 				<View className="reply-list">
 					{info.replies &&
 						info.replies.map((item, index) => {
-							return <ReplyItem 
-							key={item.id} 
-							{...item} 
-							index={index + 1} 
-							user={user} 
-							onLike={like} 
-							onOpenReplyModal={this.openReplyModal.bind(this,'回复评论',item)}
+							return <ReplyItem
+								key={item.id}
+								{...item}
+								index={index + 1}
+								user={userInfo}
+								onLike={this.handleLike.bind(this)}
+								onOpenReplyModal={this.openReplyModal.bind(this, '回复评论', item)}
 							/>;
 						})}
 				</View>
 				<View className="reply-btn">
-					<AtButton type='primary' full onClick={this.openReplyModal.bind(this,'回复话题',null)}>回复话题</AtButton>
+					<AtButton type='primary' full onClick={this.openReplyModal.bind(this, '回复话题', null)}>回复话题</AtButton>
 				</View>
 				<ReplyModal
 					isOpened={isShowReplyModal}

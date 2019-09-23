@@ -2,9 +2,10 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, RichText, Text, Icon, Image } from "@tarojs/components";
 import { AtBadge, AtTag } from "taro-ui";
 
-import { formatDate, getRichImg } from "../../utils/lib";
 import "../../assets/font/iconfont.css";
 import "./ReplyItem.less";
+
+import { formatDate, getRichImg } from "../../utils/lib";
 
 const isShowRichText = process.env.TARO_ENV === 'weapp';
 

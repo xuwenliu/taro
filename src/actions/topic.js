@@ -3,7 +3,6 @@ import {
 	CLEAR_TOPIC_LIST,
 	GET_TOPIC_INFO,
 	ADMIRE_SUCCESS,
-	REPLY_SUCCESS,
 	SHOW_REPLY_MODAL,
 	HIDE_REPLY_MODAL
 } from "../constants/topic";
@@ -42,8 +41,10 @@ const admireSuccess = () => {
 //获取话题列表
 export const getTopicListData = params => {
 	return async dispatch => {
+		Taro.showLoading();
 		let result = await getJSON(api.get_topics, params);
 		if (result && result.data) {
+			Taro.hideLoading();
 			if (result.data.data.length > 0) {
 				dispatch(topicList(result.data.data, params.page));
 			}
@@ -61,9 +62,10 @@ export const clearTopicListData = () => {
 // 获取话题详情及回复列表
 export const getTopicInfoData = (params) => {
 	return async dispatch => {
-		let result = await getJSON(api.get_topic_info + '/' + params.id, params);
-		console.log(result)
+		Taro.showLoading();
+		let result = await getJSON(api.get_topic_info + params.id, params);
 		if (result && result.data && result.data.success) {
+			Taro.hideLoading();
 			dispatch(getTopicInfo(result.data.data));
 		}
 	}
@@ -72,7 +74,7 @@ export const getTopicInfoData = (params) => {
 //点赞 
 export const admireTopic = (params) => {
 	return async dispatch => {
-		let result = await postJSON(api.up_reply + '/' + params.replyId + '/ups', params);
+		let result = await postJSON(api.up_reply + params.replyId + '/ups', params);
 		if (result && result.data && result.data.success) {
 			dispatch(admireSuccess());
 		} else {
@@ -104,7 +106,7 @@ export const hideReplyModal = () => {
 // 回复话题 或者 回复评论
 export const replyContent = (params) => {
 	return async dispatch => {
-		let result = await postJSON(api.reply_topic + '/' + params.topic_id + '/replies', params);
+		let result = await postJSON(api.reply_topic + params.topic_id + '/replies', params);
 		if (result && result.data && result.data.success) {
 			dispatch(hideReplyModal());
 		} else {
