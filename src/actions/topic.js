@@ -123,13 +123,14 @@ export const createTopic = (params) => {
 			return result.data;
 		} else {
 			Taro.showToast({
-				title: '提交失败',
+				title: '发布话题失败',
 				icon: 'none',
 			})
 		}
 	}
 }
 
+//删除话题
 export const deleteTopic = (params) => {
 	return async () => {
 		let result = await postJSON(api.delete_topic, params);
@@ -137,7 +138,53 @@ export const deleteTopic = (params) => {
 			return result.data;
 		} else {
 			Taro.showToast({
-				title: '删除失败',
+				title: '删除话题失败',
+				icon: 'none',
+			})
+		}
+	}
+}
+
+//修改话题
+export const updateTopic = (params) => {
+	return async () => {
+		let result = await postJSON(api.update_topic, params);
+		if (result && result.data && result.data.success) {
+			return result.data;
+		} else {
+			Taro.showToast({
+				title: '修改话题失败',
+				icon: 'none',
+			})
+		}
+	}
+}
+
+//收藏话题
+export const collectTopic = (params) => {
+	return async () => {
+		let result = await postJSON(api.topic_collect, params);
+		if (result && result.data && result.data.success) {
+			return result.data;
+		} else {
+			Taro.showToast({
+				title: result.data.error_msg,
+				icon: 'none',
+			})
+		}
+	}
+}
+
+
+//取消收藏话题
+export const deCollectTopic = (params) => {
+	return async () => {
+		let result = await postJSON(api.topic_de_collect, params);
+		if (result && result.data && result.data.success) {
+			return result.data;
+		} else {
+			Taro.showToast({
+				title: result.data.error_msg,
 				icon: 'none',
 			})
 		}

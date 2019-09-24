@@ -16,7 +16,9 @@ import {
 	replyContent,
 	showReplyModal,
 	hideReplyModal,
-	deleteTopic
+	deleteTopic,
+	collectTopic,
+	deCollectTopic,
 } from "../../actions/topic";
 
 
@@ -45,7 +47,14 @@ const mapDispatchToProps = dispatch => ({
 	},
 	deleteTopic: params => {
 		return dispatch(deleteTopic(params))
-	}
+	},
+	collectTopic: params => {
+		return dispatch(collectTopic(params))
+	},
+	deCollectTopic: params => {
+		return dispatch(deCollectTopic(params))
+	},
+
 
 });
 
@@ -127,8 +136,32 @@ class Detail extends Component {
 		this.props.replyContent(params);
 	}
 
+	//收藏主题和取消收藏
+	handleCollect(info) {
+		let { collectTopic, deCollectTopic, userInfo } = this.props;
+		let is_collect = info.is_collect; //true=已收藏(需要取消收藏) false=未收藏(需要收藏)
+		let params = {
+			topic_id: info.id,
+			accesstoken: userInfo.accesstoken
+		}
+		//取消
+		if (is_collect) {
+			deCollectTopic(params).then(res => {
+				if (res.success) {
+					this.getDetail();
+				}
+			})
+		} else { //收藏
+			collectTopic(params).then(res => {
+				if (res.success) {
+					this.getDetail();
+				}
+			})
+		}
+	}
+
 	goEdit() {
-		Taro.navigateTo({ 
+		Taro.navigateTo({
 			url: '/pages/publish/publish?topicId=' + this.props.info.id
 		});
 	}
@@ -194,19 +227,29 @@ class Detail extends Component {
 					onClose={this.closeReplyModal.bind(this)}
 					onOk={this.replyContent.bind(this)} />
 
-				{
-					this.state.isSelf ?
-						<View className="fab">
-							<AtFab onClick={this.goEdit.bind(this)}>
-								<AtIcon value="edit"></AtIcon>
-							</AtFab>
-							<View className="delete">
+				<View className="fab">
+					{/* 收藏话题 */}
+					<AtFab onClick={this.handleCollect.bind(this, info)}>
+						{info.is_collect ? <AtIcon value="heart-2"></AtIcon> : <AtIcon value="heart"></AtIcon>}
+					</AtFab>
+					{
+						this.state.isSelf ?
+							<View>
+								{/* 修改话题 */}
+								<View className="edit">
+									<AtFab onClick={this.goEdit.bind(this)}>
+										<AtIcon value="edit"></AtIcon>
+									</AtFab>
+								</View>
+								{/* 删除话题 */}
 								<AtFab onClick={this.openDeleteModal.bind(this)}>
 									<AtIcon value="trash"></AtIcon>
 								</AtFab>
-							</View>
-						</View> : null
-				}
+							</View> : null
+					}
+
+
+				</View>
 				{/* 删除确认框 */}
 				<AtModal
 					closeOnClickOverlay={false}
@@ -217,6 +260,8 @@ class Detail extends Component {
 					onCancel={this.handleCancel}
 					onConfirm={this.handleConfirm}
 				/>
+
+
 			</View>
 		);
 	}

@@ -5,7 +5,7 @@ import { connect } from "@tarojs/redux";
 
 import './publish.less';
 
-import { createTopic, getTopicInfoData } from '../../actions/topic';
+import { createTopic, updateTopic, getTopicInfoData } from '../../actions/topic';
 
 const mapStateToProps = state => ({
     selectorData: state.menu.cataData,
@@ -18,6 +18,9 @@ const mapDispatchToProps = dispatch => ({
     getTopicInfo: params => {
         return dispatch(getTopicInfoData(params));
     },
+    updateTopic: params => {
+        return dispatch(updateTopic(params));
+    },
 });
 
 @connect(
@@ -26,7 +29,7 @@ const mapDispatchToProps = dispatch => ({
 )
 class Publish extends Component {
     config = {
-        navigationBarTitleText: '编辑话题'
+        navigationBarTitleText: '话题'
     }
     state = {
         title: '',
@@ -60,7 +63,7 @@ class Publish extends Component {
         });
     }
     onSubmit() {
-        let { userInfo, createTopic } = this.props;
+        let { userInfo, createTopic, updateTopic } = this.props;
         let { title, selector, selectorIndex, content } = this.state;
         let tab = selectorIndex ? selector[selectorIndex].key : '';
         let params = {
@@ -73,15 +76,30 @@ class Publish extends Component {
             this.setState({
                 disabled: true
             })
-            createTopic(params).then(res => {
-                this.setState({
-                    disabled: false
+            //修改话题
+            if (this.$router.params.topicId) {
+                params.topic_id = this.$router.params.topicId;
+                updateTopic(params).then(res => {
+                    this.setState({
+                        disabled: false
+                    })
+                    if (res.success) {
+                        Taro.navigateBack({ url: '/pages/user/user' });
+                    }
                 })
-                if (res.success) {
-                    // Taro.navigateBack(); //返回之前的页面不会使其刷新
-                    Taro.redirectTo({ url: '/pages/user/user' });
-                }
-            })
+            } else {
+                //添加一个话题
+                createTopic(params).then(res => {
+                    this.setState({
+                        disabled: false
+                    })
+                    if (res.success) {
+                        // Taro.navigateBack(); //返回之前的页面不会使其刷新
+                        Taro.redirectTo({ url: '/pages/user/user' });
+                    }
+                })
+            }
+
         } else {
             Taro.showToast({
                 title: '分类或者标题内容都不能为空',

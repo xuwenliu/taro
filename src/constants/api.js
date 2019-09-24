@@ -14,6 +14,7 @@ const requestApi = {
 
     create_topic: '/topics',// post 新建话题
     delete_topic: '/topics/delete', // post 删除话题 官方未提供接口
+    update_topic: '/topics/update',//post 修改话题
     reply_topic: '/topic/', // post /topic/:topic_id/replies 回复评论
     up_reply: '/reply/', // post /reply/:reply_id/ups 点赞
 
