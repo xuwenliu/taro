@@ -8,7 +8,7 @@ import './user.less';
 import { Head } from '../../components/user/Head';
 import { Panel } from '../../components/user/Panel';
 import { getUserDetail } from '../../actions/user';
-import { formatDate } from '../../utils/lib';
+import { formatDate, validateIsLogin } from '../../utils/lib';
 
 const mapStateToProps = state => ({
 	userDetail: state.user.userDetail,
@@ -36,11 +36,7 @@ class User extends Component {
 	}
 
 	goCreateTopic() {
-		if (this.props.userInfo.accesstoken) {
-			Taro.redirectTo({ url: '/pages/publish/publish' });
-		} else {
-			Taro.navigateTo({ url: '/pages/user/login' });
-		}
+		Taro.redirectTo({ url: '/pages/publish/publish' });
 	}
 	render() {
 		const { userDetail, userInfo } = this.props;

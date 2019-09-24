@@ -63,6 +63,7 @@ export const getTopicInfoData = (params) => {
 		let result = await getJSON(api.get_topic_info + params.id, params);
 		if (result && result.data && result.data.success) {
 			dispatch(getTopicInfo(result.data.data));
+			return result.data.data;
 		}
 	}
 }
@@ -122,7 +123,21 @@ export const createTopic = (params) => {
 			return result.data;
 		} else {
 			Taro.showToast({
-				title: '发布失败',
+				title: '提交失败',
+				icon: 'none',
+			})
+		}
+	}
+}
+
+export const deleteTopic = (params) => {
+	return async () => {
+		let result = await postJSON(api.delete_topic, params);
+		if (result && result.data && result.data.success) {
+			return result.data;
+		} else {
+			Taro.showToast({
+				title: '删除失败',
 				icon: 'none',
 			})
 		}

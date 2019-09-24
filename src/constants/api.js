@@ -13,6 +13,7 @@ const requestApi = {
     get_user_info: '/user/',  // get /user/:loginname 用户详情
 
     create_topic: '/topics',// post 新建话题
+    delete_topic: '/topics/delete', // post 删除话题 官方未提供接口
     reply_topic: '/topic/', // post /topic/:topic_id/replies 回复评论
     up_reply: '/reply/', // post /reply/:reply_id/ups 点赞
 

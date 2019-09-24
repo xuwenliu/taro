@@ -5,7 +5,7 @@ import { connect } from "@tarojs/redux";
 
 import './publish.less';
 
-import { createTopic } from '../../actions/topic';
+import { createTopic, getTopicInfoData } from '../../actions/topic';
 
 const mapStateToProps = state => ({
     selectorData: state.menu.cataData,
@@ -15,6 +15,9 @@ const mapDispatchToProps = dispatch => ({
     createTopic: params => {
         return dispatch(createTopic(params));
     },
+    getTopicInfo: params => {
+        return dispatch(getTopicInfoData(params));
+    },
 });
 
 @connect(
@@ -23,7 +26,7 @@ const mapDispatchToProps = dispatch => ({
 )
 class Publish extends Component {
     config = {
-        navigationBarTitleText: '发布话题'
+        navigationBarTitleText: '编辑话题'
     }
     state = {
         title: '',
@@ -37,6 +40,24 @@ class Publish extends Component {
         this.setState({
             selector
         })
+        //修改需要用到
+        this.$router.params.topicId && this.getTopicSelfInfo(this.$router.params.topicId, selector);
+    }
+    getTopicSelfInfo(topic_id, selector) {
+        let { getTopicInfo, userInfo } = this.props;
+        let params = {
+            id: topic_id,
+            accesstoken: userInfo.accesstoken
+        }
+        getTopicInfo(params).then(res => {
+            let tab = res.tab;
+            let selectorIndex = selector.findIndex(item => item.key === tab);
+            this.setState({
+                title: res.title,
+                content: res.content,
+                selectorIndex,
+            })
+        });
     }
     onSubmit() {
         let { userInfo, createTopic } = this.props;
@@ -69,11 +90,19 @@ class Publish extends Component {
         }
     }
     onReset() {
-        this.setState({
-            title: '',
-            selectorIndex: '',
-            content: '',
-        })
+        //修改的时候重置
+        if (this.$router.params.topicId) {
+            let selector = this.props.selectorData.filter((item, index) => index > 1);
+            this.getTopicSelfInfo(this.$router.params.topicId, selector);
+        } else {
+            //添加的时候重置
+            this.setState({
+                title: '',
+                selectorIndex: '',
+                content: '',
+            })
+        }
+
     }
     handleChangeTitle(title) {
         this.setState({
@@ -129,7 +158,7 @@ class Publish extends Component {
                 />
             </View>
             <View className="publish-btn-group">
-                <Button loading={disabled} disabled={disabled} onClick={this.onSubmit.bind(this)} className="btn">发布</Button>
+                <Button loading={disabled} disabled={disabled} onClick={this.onSubmit.bind(this)} className="btn">提交</Button>
                 <Button onClick={this.onReset.bind(this)} className="btn">重置</Button>
             </View>
         </View>;
