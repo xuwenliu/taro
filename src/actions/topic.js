@@ -113,7 +113,21 @@ export const replyContent = (params) => {
 			Taro.showToast({
 				title: '回复失败',
 				icon: 'none',
-				duration: 3000
+			})
+		}
+	}
+}
+
+//发布话题
+export const createTopic = (params) => {
+	return async () => {
+		let result = await postJSON(api.create_topic, params);
+		if (result && result.data && result.data.success) {
+			return result.data;
+		} else {
+			Taro.showToast({
+				title: '发布失败',
+				icon: 'none',
 			})
 		}
 	}

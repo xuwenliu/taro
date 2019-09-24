@@ -1,9 +1,9 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
-import { AtNoticebar } from 'taro-ui';
+import { AtNoticebar, AtButton } from 'taro-ui';
 import { connect } from "@tarojs/redux";
 
-import './login.less';
+import './user.less';
 
 import { Head } from '../../components/user/Head';
 import { Panel } from '../../components/user/Panel';
@@ -25,8 +25,8 @@ const mapDispatchToProps = dispatch => ({
 	mapDispatchToProps
 )
 class User extends Component {
-	config={
-		navigationBarTitleText:'个人信息'
+	config = {
+		navigationBarTitleText: '个人信息'
 	}
 	componentDidMount() {
 		let params = {
@@ -34,9 +34,17 @@ class User extends Component {
 		}
 		this.props.getUserDetail(params);
 	}
+
+	goCreateTopic() {
+		if (this.props.userInfo.accesstoken) {
+			Taro.redirectTo({ url: '/pages/publish/publish' });
+		} else {
+			Taro.navigateTo({ url: '/pages/user/login' });
+		}
+	}
 	render() {
-		const { userDetail,userInfo } = this.props;
-		return <View>
+		const { userDetail, userInfo } = this.props;
+		return <View className="user">
 			<Head userInfo={userInfo} />
 			<AtNoticebar>
 				<View className="user-jf">
@@ -46,6 +54,9 @@ class User extends Component {
 			</AtNoticebar>
 			<Panel title="最近创建的话题" list={userDetail.recent_topics} />
 			<Panel title="最近参与的话题" list={userDetail.recent_replies} />
+			<View className="reply-btn">
+				<AtButton type='primary' full onClick={this.goCreateTopic.bind(this)}>发布话题</AtButton>
+			</View>
 		</View>;
 	}
 }

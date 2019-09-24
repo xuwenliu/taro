@@ -10,6 +10,7 @@ const USER_STATE = {
 export default (state = USER_STATE, action) => {
     switch (action.type) {
         case USER_LOGIN_SUCCESS:
+            Taro.setStorageSync('userInfo', JSON.stringify(action.userInfo));
             return {
                 ...state,
                 userInfo: action.userInfo,

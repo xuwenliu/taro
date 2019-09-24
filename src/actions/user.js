@@ -29,7 +29,6 @@ export const login = (params) => {
                 ...result.data
             }
             dispatch(loginSuccess(userInfo));
-            Taro.setStorageSync('userInfo',JSON.stringify(userInfo));
             return result.data;
         } else {
             Taro.showToast({
