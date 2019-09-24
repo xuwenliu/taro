@@ -41,10 +41,8 @@ const admireSuccess = () => {
 //获取话题列表
 export const getTopicListData = params => {
 	return async dispatch => {
-		Taro.showLoading();
 		let result = await getJSON(api.get_topics, params);
 		if (result && result.data) {
-			Taro.hideLoading();
 			if (result.data.data.length > 0) {
 				dispatch(topicList(result.data.data, params.page));
 			}
@@ -62,10 +60,8 @@ export const clearTopicListData = () => {
 // 获取话题详情及回复列表
 export const getTopicInfoData = (params) => {
 	return async dispatch => {
-		Taro.showLoading();
 		let result = await getJSON(api.get_topic_info + params.id, params);
 		if (result && result.data && result.data.success) {
-			Taro.hideLoading();
 			dispatch(getTopicInfo(result.data.data));
 		}
 	}
