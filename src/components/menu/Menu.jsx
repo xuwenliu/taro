@@ -9,6 +9,8 @@ import "./Menu.less";
 import { showDrawer, hideDrawer, changeCata } from "../../actions/menu";
 import { getTopicListData, clearTopicListData } from "../../actions/topic";
 
+import { validateIsLogin } from '../../utils/lib';
+
 const mapStateToProps = state => ({
 	...state.menu,
 	page: state.topic.page,
@@ -54,11 +56,9 @@ class Menu extends Component {
 	};
 
 	toUser() {
-		if (this.props.userInfo.accesstoken) {
-			Taro.navigateTo({ url: '/pages/user/user' });
-		} else {
-			Taro.navigateTo({ url: '/pages/user/login' });
-		}
+		validateIsLogin(this.props.userInfo).then(res => {
+			res && Taro.navigateTo({ url: '/pages/user/user' });
+		})
 	}
 	render() {
 		const { showDrawer, cataData, currentCata, handleShowDrawer, handleHideDrawer } = this.props;

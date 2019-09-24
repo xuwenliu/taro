@@ -9,7 +9,7 @@ import TopicItem from "../index/TopicItem";
 import ReplyItem from "./ReplyItem";
 import ReplyModal from "./ReplyModal";
 
-import { getRichImg } from "../../utils/lib";
+import { getRichImg, validateIsLogin } from "../../utils/lib";
 import {
 	getTopicInfoData,
 	admireTopic,
@@ -74,27 +74,27 @@ class Detail extends Component {
 		getTopicInfo(params);
 	}
 	handleLike(params) {
-		if (this.props.userInfo.accesstoken) {
-			this.props.like(params);
-		} else {
-			Taro.navigateTo({ url: '/pages/user/login' });
-		}
+		validateIsLogin(this.props.userInfo).then(res => {
+			res && this.props.like(params);
+		})
 	}
 
 	openReplyModal(title, currentReply) {
-		if (this.props.userInfo.accesstoken) {
-			this.setState({
-				replyModalTitle: title,
-				currentReply,
-			})
-			this.props.showReplyModal();
-		} else {
-			Taro.navigateTo({ url: '/pages/user/login' });
-		}
+		validateIsLogin(this.props.userInfo).then(res => {
+			if (res) {
+				this.setState({
+					replyModalTitle: title,
+					currentReply,
+				})
+				this.props.showReplyModal();
+			}
+		})
 	}
+
 	closeReplyModal() {
 		this.props.hideReplyModal();
 	}
+
 	replyContent(content) {
 		// content 评论内容
 		// accesstoken 谁评论了
@@ -134,7 +134,7 @@ class Detail extends Component {
 								index={index + 1}
 								user={userInfo}
 								onLike={this.handleLike.bind(this)}
-								onOpenReplyModal={this.openReplyModal.bind(this, '回复评论', item)}
+								onOpenReplyModal={this.openReplyModal.bind(this, `回复【${item.author.loginname}】的评论`, item)}
 							/>;
 						})}
 				</View>

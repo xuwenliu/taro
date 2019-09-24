@@ -1,3 +1,5 @@
+import Taro from '@tarojs/taro';
+
 export function formatDate(time) {
 	let date = new Date(time);
 	let year = date.getFullYear();
@@ -34,11 +36,23 @@ export function getDesc(top, good, tab) {
 		if (tab === "dev") {
 			item_btn_content = "dev";
 		}
-    }
-    return [item_btn_class, item_btn_content];
+	}
+	return [item_btn_class, item_btn_content];
 }
 
 //替换富文本中的img给添加个rich-img class 用于设置样式
 export function getRichImg(content) {
-    return content ? content.replace(/\<img/gi, '<img class="rich-img"') : '';
+	return content ? content.replace(/\<img/gi, '<img class="rich-img"') : '';
+}
+
+//验证用户是否登录
+export function validateIsLogin(userInfo) {
+	return new Promise((resolve) => {
+		if (userInfo && userInfo.accesstoken) {
+			resolve(true);
+		} else {
+			Taro.navigateTo({ url: '/pages/user/login' });
+			resolve(false);
+		}
+	})
 }
