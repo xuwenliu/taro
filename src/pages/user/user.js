@@ -5,10 +5,10 @@ import { connect } from "@tarojs/redux";
 
 import './user.less';
 
-import { Head } from '../../components/user/Head';
-import { Panel } from '../../components/user/Panel';
+import Head from '../../components/user/Head';
+import Panel from '../../components/user/Panel';
 import { getUserDetail } from '../../actions/user';
-import { formatDate, validateIsLogin } from '../../utils/lib';
+import { formatDate } from '../../utils/lib';
 
 const mapStateToProps = state => ({
 	userDetail: state.user.userDetail,

@@ -118,6 +118,7 @@ class Detail extends Component {
 		this.props.hideReplyModal();
 	}
 
+	//回复话题
 	replyContent(content) {
 		// content 评论内容
 		// accesstoken 谁评论了
@@ -139,25 +140,30 @@ class Detail extends Component {
 	//收藏主题和取消收藏
 	handleCollect(info) {
 		let { collectTopic, deCollectTopic, userInfo } = this.props;
-		let is_collect = info.is_collect; //true=已收藏(需要取消收藏) false=未收藏(需要收藏)
-		let params = {
-			topic_id: info.id,
-			accesstoken: userInfo.accesstoken
-		}
-		//取消
-		if (is_collect) {
-			deCollectTopic(params).then(res => {
-				if (res.success) {
-					this.getDetail();
+		validateIsLogin(userInfo).then(res => {
+			if (res) {
+				let is_collect = info.is_collect; //true=已收藏(需要取消收藏) false=未收藏(需要收藏)
+				let params = {
+					topic_id: info.id,
+					accesstoken: userInfo.accesstoken
 				}
-			})
-		} else { //收藏
-			collectTopic(params).then(res => {
-				if (res.success) {
-					this.getDetail();
+				//取消
+				if (is_collect) {
+					deCollectTopic(params).then(res => {
+						if (res.success) {
+							this.getDetail();
+						}
+					})
+				} else { //收藏
+					collectTopic(params).then(res => {
+						if (res.success) {
+							this.getDetail();
+						}
+					})
 				}
-			})
-		}
+			}
+		})
+
 	}
 
 	goEdit() {

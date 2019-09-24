@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "myApp",
   "description": "开始学习taro",
-  "appid": "touristappid",
+  "appid": "wx34627484a364af57",
   "setting": {
     "urlCheck": true,
     "es6": false,

@@ -39,13 +39,17 @@ class ReplyModal extends Component {
         >
             <AtModalHeader>{title}</AtModalHeader>
             <AtModalContent>
-                <AtTextarea
-                    fixed
-                    value={value}
-                    height={200}
-                    onChange={this.handleChange.bind(this)}
-                    maxLength={200}
-                    placeholder='请输入回复内容...' />
+                {
+                    // 这里判断是因为modal里面有textarea placeholder会直接显示在页面上
+                    isOpened ? <AtTextarea
+                        fixed={true}
+                        value={value}
+                        height={200}
+                        onChange={this.handleChange.bind(this)}
+                        maxLength={200}
+                        placeholder='请输入回复内容...' /> : null
+                }
+
             </AtModalContent>
             <AtModalAction>
                 <Button onClick={this.handleCancel.bind(this)}>取消</Button>

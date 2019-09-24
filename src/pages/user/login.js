@@ -5,7 +5,7 @@ import { connect } from "@tarojs/redux";
 
 import './login.less';
 
-import { Head } from '../../components/user/Head';
+import Head from '../../components/user/Head';
 import { login } from '../../actions/user';
 
 const mapStateToProps = state => ({
@@ -59,11 +59,13 @@ class Login extends Component {
 		}
 	}
 	render() {
+		let { accesstoken } = this.state;
 		return <View>
 			<Head />
 			<View className="login-body">
 				<AtInput
 					type='text'
+					value={accesstoken}
 					placeholder="请输入accesstoken验证"
 					onChange={this.handleChange.bind(this)}
 				/>

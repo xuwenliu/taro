@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Image } from "@tarojs/components";
+import { View, Image, Text } from "@tarojs/components";
 import './Head.less';
 class Head extends Component {
     render() {
@@ -17,9 +17,9 @@ class Head extends Component {
 }
 
 Head.defaultProps = {
-    userInfo:{
-        avatar_url:'',
-        loginname:'',
+    userInfo: {
+        avatar_url: '',
+        loginname: '',
     }
 }
 

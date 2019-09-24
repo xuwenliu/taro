@@ -44,7 +44,7 @@ class ReplyItem extends Component {
 					</View>
 				</View>
 				<View className="reply-bottom">
-					{isShowRichText ? <RichText nodes={content} /> : <View>{content}</View>}
+					{isShowRichText ? <RichText nodes={content} /> : <View dangerouslySetInnerHTML={{ __html: content }}></View>}
 				</View>
 			</View>
 		);

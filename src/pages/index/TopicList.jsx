@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { ScrollView } from "@tarojs/components";
+import { ScrollView, View } from "@tarojs/components";
 import { AtFab, AtIcon } from 'taro-ui';
 import { connect } from "@tarojs/redux";
 

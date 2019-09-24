@@ -6,9 +6,8 @@ export function getJSON(url, data) {
 		url,
 		data,
 		method: "GET",
-	}).then(res => {
+	}).finally(() => {
 		Taro.hideLoading();
-		return res;
 	});
 }
 
@@ -18,9 +17,11 @@ export function postJSON(url, data) {
 		url,
 		data,
 		method: "POST",
-	}).then(res => {
+		header: {
+			'content-type': 'application/json'
+		}
+	}).finally(() => {
 		Taro.hideLoading();
-		return res;
 	});
 }
 
