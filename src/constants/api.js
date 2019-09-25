@@ -7,7 +7,7 @@ const requestApi = {
     topic_collect: '/topic_collect/collect', // post 收藏主题
     topic_de_collect: '/topic_collect/de_collect', // post 取消主题
 
-    get_user_topic: '/topic_collect', // get /topic_collect/:loginname 用户所收藏的主题
+    get_user_topic: '/topic_collect/', // get /topic_collect/:loginname 用户所收藏的主题
 
     check_user_token: '/accesstoken', // post 验证用户token
     get_user_info: '/user/',  // get /user/:loginname 用户详情

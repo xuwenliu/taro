@@ -2,6 +2,7 @@ import {
 	GET_TOPIC_LIST,
 	CLEAR_TOPIC_LIST,
 	GET_TOPIC_INFO,
+	GET_COLLECT_TOPIC,
 	ADMIRE_SUCCESS,
 	SHOW_REPLY_MODAL,
 	HIDE_REPLY_MODAL
@@ -313,6 +314,7 @@ const TOPIC_STATE = {
 	info: {},
 	admireStatus: false, //点赞状态
 	isShowReplyModal: false,
+	collectTopicList: [],//收藏的话题
 };
 
 export default (state = TOPIC_STATE, action) => {
@@ -332,6 +334,11 @@ export default (state = TOPIC_STATE, action) => {
 			return {
 				...state,
 				info: action.info,
+			}
+		case GET_COLLECT_TOPIC:
+			return {
+				...state,
+				collectTopicList: action.collectTopicList
 			}
 		case ADMIRE_SUCCESS:
 			return {

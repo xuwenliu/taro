@@ -34,7 +34,7 @@ export function getDesc(top, good, tab) {
 			item_btn_content = "招聘";
 		}
 		if (tab === "dev") {
-			item_btn_content = "dev";
+			item_btn_content = "客户端测试";
 		}
 	}
 	return [item_btn_class, item_btn_content];

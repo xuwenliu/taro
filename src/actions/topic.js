@@ -2,6 +2,7 @@ import {
 	GET_TOPIC_LIST,
 	CLEAR_TOPIC_LIST,
 	GET_TOPIC_INFO,
+	GET_COLLECT_TOPIC,
 	ADMIRE_SUCCESS,
 	SHOW_REPLY_MODAL,
 	HIDE_REPLY_MODAL
@@ -29,6 +30,13 @@ const getTopicInfo = (info) => {
 	return {
 		type: GET_TOPIC_INFO,
 		info: info
+	}
+}
+
+const getCollectTopic = (collectTopicList) => {
+	return {
+		type: GET_COLLECT_TOPIC,
+		collectTopicList,
 	}
 }
 
@@ -63,6 +71,17 @@ export const getTopicInfoData = (params) => {
 		let result = await getJSON(api.get_topic_info + params.id, params);
 		if (result && result.data && result.data.success) {
 			dispatch(getTopicInfo(result.data.data));
+			return result.data.data;
+		}
+	}
+}
+
+// 获取收藏的话题
+export const getCollectTopicData = (params) => {
+	return async dispatch => {
+		let result = await getJSON(api.get_user_topic + params.loginname);
+		if (result && result.data && result.data.success) {
+			dispatch(getCollectTopic(result.data.data));
 			return result.data.data;
 		}
 	}

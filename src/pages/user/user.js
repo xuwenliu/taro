@@ -8,15 +8,20 @@ import './user.less';
 import Head from '../../components/user/Head';
 import Panel from '../../components/user/Panel';
 import { getUserDetail } from '../../actions/user';
+import { getCollectTopicData } from '../../actions/topic';
 import { formatDate } from '../../utils/lib';
 
 const mapStateToProps = state => ({
 	userDetail: state.user.userDetail,
 	userInfo: state.user.userInfo,
+	collectTopicList: state.topic.collectTopicList
 });
 const mapDispatchToProps = dispatch => ({
 	getUserDetail: params => {
 		dispatch(getUserDetail(params));
+	},
+	getCollectTopic: params => {
+		dispatch(getCollectTopicData(params));
 	},
 });
 
@@ -33,13 +38,15 @@ class User extends Component {
 			loginname: this.props.userInfo.loginname
 		}
 		this.props.getUserDetail(params);
+		this.props.getCollectTopic(params);
+
 	}
 
 	goCreateTopic() {
 		Taro.redirectTo({ url: '/pages/publish/publish' });
 	}
 	render() {
-		const { userDetail, userInfo } = this.props;
+		const { userDetail, userInfo, collectTopicList } = this.props;
 		return <View className="user">
 			<Head userInfo={userInfo} />
 			<AtNoticebar>
@@ -48,6 +55,7 @@ class User extends Component {
 					<Text>注册时间：{formatDate(userDetail.create_at)}</Text>
 				</View>
 			</AtNoticebar>
+			<Panel title="收藏的话题" list={collectTopicList} />
 			<Panel title="最近创建的话题" list={userDetail.recent_topics} />
 			<Panel title="最近参与的话题" list={userDetail.recent_replies} />
 			<View className="reply-btn">
